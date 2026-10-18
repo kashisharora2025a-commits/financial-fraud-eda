@@ -2,12 +2,6 @@
 
 An educational project that explores the ULB credit-card transaction dataset, compares four imbalance-aware classifiers, and provides a small Streamlit demonstration. Exploratory and model-result charts live in Jupyter notebooks. The Streamlit app keeps transaction scoring and a separate geolocation rule demo.
 
-## Start here
-
-1. Open this project folder in VS Code: **File → Open Folder**. Open the folder that contains `app.py`, `train.py`, and `requirements.txt`.
-2. Put your own copy of `creditcard.csv` at `data/raw/creditcard.csv`. The CSV is intentionally excluded from GitHub.
-3. In VS Code choose **Terminal → New Terminal** and run these commands from the project root:
-
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
@@ -85,26 +79,6 @@ These results are from one later-time holdout containing 74 fraud transactions. 
 
 SMOTE in the actual training workflow runs on scaled training features inside the pipeline. The export inverse-transforms those rows back to the dataset's feature scales for readability. Small floating-point differences can appear in the CSV.
 
-## GitHub: what to upload
-
-Upload source code, notebooks, README, and the Markdown project report. Do **not** upload the original credit-card CSV, the `.venv` folder, or the large generated SMOTE CSV. The `.gitignore` excludes local data and generated model/report files by default. The trained model binaries can make repository history large; regenerate them with `train.py` on your machine instead of committing them.
-
-If the old repository contains the obsolete `xgboost_fraud_model.pkl`, remove it from the GitHub version after the updated files are in place:
-
-```powershell
-git rm xgboost_fraud_model.pkl
-```
-
-Then review and push the changes:
-
-```powershell
-git status
-git add README.md .gitignore app.py train.py evaluate.py data_preprocessing.py feature_engineering.py generate_data.py dataa.py geolocation.py requirements.txt notebooks reports/project_report.md
-git commit -m "Rebuild fraud detection training and evaluation"
-git push origin main
-```
-
-If your branch is not called `main`, check it with `git branch --show-current` and push that branch name. Do not use `git add .` before checking `git status`; confirm that no dataset, `.venv`, model binaries, or large generated CSVs are staged. If Git reports that an obsolete model file was not found, skip the `git rm` command.
 
 ## Dataset limits and responsible interpretation
 
