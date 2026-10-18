@@ -1,0 +1,12 @@
+__pycache__/
+.venv/
+venv/
+data/raw/*.csv
+data/demo/*.csv
+models/*.joblib
+models/*.pkl
+reports/*.csv
+reports/*.json
+reports/*.png
+!models/.gitkeep
+!reports/.gitkeep
