@@ -1,6 +1,6 @@
 # Financial Transaction Fraud and Anomaly Detection
 
-An educational project that explores the ULB credit-card transaction dataset, compares four imbalance-aware classifiers, and provides a small Streamlit demonstration. Exploratory and model-result charts live in Jupyter notebooks. The Streamlit app keeps transaction scoring and a separate geolocation rule demo.
+An educational project that explores the ULB credit-card transaction dataset and compares four imbalance-aware classifiers. Exploratory and model-result charts live in Jupyter notebooks.
 
 ## Start here
 
@@ -61,7 +61,7 @@ The actual run used 283,726 unique rows after removing 1,081 exact duplicates. I
 
 **Which performed best?** Random Forest ranked fraud best overall on this one holdout (average precision: 0.8155 with SMOTE and 0.8150 with class weights). At a 1% review budget, Random Forest with class weights caught the most fraud: 66 of 74. At 0.5%, both Random Forest variants caught 64.
 
-**How to explain accuracy:** the holdout is highly imbalanced. Predicting every transaction as legitimate would be about 99.87% accurate while detecting zero fraud. Therefore accuracy alone is misleading; discuss recall, precision, F1, average precision, and the number of alerts that a reviewer can handle.
+**explaining accuracy:** the holdout is highly imbalanced. Predicting every transaction as legitimate would be about 99.87% accurate while detecting zero fraud. Therefore accuracy alone is misleading; we discuss recall, precision, F1, average precision, and the number of alerts that a reviewer can handle.
 
 These results are from one later-time holdout containing 74 fraud transactions. They are a benchmark result, not proof of production readiness or guaranteed future performance. Rolling temporal validation would provide stronger evidence.
 
@@ -72,9 +72,7 @@ These results are from one later-time holdout containing 74 fraud transactions. 
 | `train.py` | Duplicate handling, chronological split, four model training runs, and saved evaluation outputs |
 | `notebooks/01_exploratory_data_analysis.ipynb` | Dataset checks, class imbalance, distributions, and EDA charts |
 | `notebooks/02_model_results.ipynb` | Metrics, model comparison, and result charts |
-| `app.py` | Streamlit scoring demo and geolocation demo |
-| `geolocation.py` | Separate impossible-travel calculation used by the UI |
-| `reports/project_report.md` | Project write-up, methods, results, interpretation, limitations, and viva notes |
+`reports/project_report.md` | Project write-up, methods, results, interpretation, limitations, and viva notes |
 | `reports/training_summary.md` | Summary of the supplied-data training run |
 | `reports/smote_training_data.csv` | Optional inspection export of resampled training rows; not needed to train or run the app |
 | `models/*.joblib` | Four fitted model bundles created by training; regenerate with `train.py` if absent |
@@ -85,30 +83,8 @@ These results are from one later-time holdout containing 74 fraud transactions. 
 
 SMOTE in the actual training workflow runs on scaled training features inside the pipeline. The export inverse-transforms those rows back to the dataset's feature scales for readability. Small floating-point differences can appear in the CSV.
 
-## GitHub: what to upload
-
-Upload source code, notebooks, README, and the Markdown project report. Do **not** upload the original credit-card CSV, the `.venv` folder, or the large generated SMOTE CSV. The `.gitignore` excludes local data and generated model/report files by default. The trained model binaries can make repository history large; regenerate them with `train.py` on your machine instead of committing them.
-
-If the old repository contains the obsolete `xgboost_fraud_model.pkl`, remove it from the GitHub version after the updated files are in place:
-
-```powershell
-git rm xgboost_fraud_model.pkl
-```
-
-Then review and push the changes:
-
-```powershell
-git status
-git add README.md .gitignore app.py train.py evaluate.py data_preprocessing.py feature_engineering.py generate_data.py dataa.py geolocation.py requirements.txt notebooks reports/project_report.md
-git commit -m "Rebuild fraud detection training and evaluation"
-git push origin main
-```
-
-If your branch is not called `main`, check it with `git branch --show-current` and push that branch name. Do not use `git add .` before checking `git status`; confirm that no dataset, `.venv`, model binaries, or large generated CSVs are staged. If Git reports that an obsolete model file was not found, skip the `git rm` command.
-
 ## Dataset limits and responsible interpretation
 
 - The ULB CSV contains no customer/account ID, city, merchant, or calendar timestamp. `Time` is elapsed seconds. The project does not invent account velocity features or claim geography is part of model training.
 - The geolocation feature is a separate rule-based UI demonstration using manually selected cities; it is not a trained model feature and is not linked to CSV records.
-- The Streamlit transaction tab scores genuine later-time holdout rows because a form with only amount and hour cannot provide the anonymized `V1`–`V28` inputs.
-- This is an educational retrospective benchmark. Do not use it to make real financial decisions.
+- This is an educational retrospective benchmark. We do not use it to make real financial decisions.

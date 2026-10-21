@@ -1,11 +1,5 @@
-﻿"""Feature helpers for fields that exist in the ULB dataset.
-
-The ULB benchmark has no cardholder/account ID or geographic location. Do not
-invent a single dummy user to calculate transaction velocity features.
-"""
-import numpy as np
+﻿import numpy as np
 import pandas as pd
-
 
 def compute_log_amount(df: pd.DataFrame) -> pd.DataFrame:
     result = df.copy()
